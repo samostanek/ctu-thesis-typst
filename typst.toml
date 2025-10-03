@@ -1,10 +1,10 @@
 [package]
-name = "fiquill"
-version = "0.5.0"
+name = "ctu-thesis"
+version = "0.1.0"
 entrypoint = "src/lib.typ"
-authors = ["Ivan Kushpel"]
+authors = ["Samuel Stanek", "Ivan Kushpel"]
 license = "BSD-3-Clause"
-description = "A template for writing theses in Typst."
+description = "A template for writing theses at Czech Technical University in Typst."
 
 [template]
 path = "example"
