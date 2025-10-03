@@ -49,6 +49,10 @@
   /// The author of the thesis. Will be used in the PDF metadata.
   /// -> str
   author: "Name Surname",
+  supervisor: [],
+  consultant: [],
+  studyprogram: [],
+  specialization: [],
   /// Keywords for the thesis. Will be used in the PDF metadata. Needs to be an array of strings.
   /// -> array
   keywords: (),
@@ -111,6 +115,10 @@
     #metadata(title) <fityper-metadata-title>
     #metadata(date) <fityper-metadata-date>
     #metadata(author) <fityper-metadata-author>
+    #metadata(supervisor) <fityper-metadata-supervisor>
+    #metadata(consultant) <fityper-metadata-consultant>
+    #metadata(studyprogram) <fityper-metadata-studyprogram>
+    #metadata(specialization) <fityper-metadata-specialization>
     #metadata(keywords) <fityper-metadata-keywords>
 
     // Also specify internal metadata

@@ -41,6 +41,10 @@
   /// If `auto`, then the provided template metadata is used.
   /// -> content | auto
   author: auto,
+  supervisor: auto,
+  consultant: auto,
+  studyprogram: auto,
+  specialization: auto,
   /// Date to be shown on the title page.
   ///
   /// If `auto`, then the provided template metadata is used.
@@ -55,20 +59,37 @@
     author = context query(<fityper-metadata-author>).first().value
   }
 
+  if supervisor == auto {
+    supervisor = context query(<fityper-metadata-supervisor>).first().value
+  }
+
+  if consultant == auto {
+    consultant = context query(<fityper-metadata-consultant>).first().value
+  }
+
+  if studyprogram == auto {
+    studyprogram = context query(<fityper-metadata-studyprogram>).first().value
+  }
+
+  if specialization == auto {
+    specialization = context query(<fityper-metadata-specialization>).first().value
+  }
+
   if date == auto {
     date = context query(<fityper-metadata-date>).first().value
   }
 
   if institution == auto {
     institution = [
-      #text(15pt, smallcaps[Masaryk University]) \
-      #text(13pt, smallcaps[Faculty of Informatics])
+      #text(15pt, smallcaps[Czech Technical University in Prague]) \
+      #text(13pt, smallcaps[Faculty of ...]) \
+      #text(13pt, smallcaps[Department of ...])
     ]
   }
 
   if logo == auto {
     logo = [
-      #image("../../assets/fi_znak-cb.svg", width: 50mm, height: 50mm)
+      #image("../../assets/ctu_logo_black.svg", width: 52mm, height: 40mm)
     ]
   }
 
@@ -85,59 +106,36 @@
       #v(5%)
       #logo
 
-      #v(1fr)
+      #v(.5fr)
 
       #text(24pt, smallcaps(title))
       #v(5%)
-      #text(16pt, smallcaps(thesis)) \
+      #text(16pt, smallcaps[#thesis]) \
       #text(16pt, emph(author))
 
       #v(1fr)
+    ]
 
+    #box(stroke: (left: 1.5pt), outset: 10pt)[
+      Supervisor: #supervisor \
+      Consultant: #consultant \
+      Study program: #studyprogram \
+      Specialization: #specialization
+      #v(0pt)\
       #text(13pt, smallcaps(date))
     ]
   ]
 }
 
+#let assignment(imagePath: "assets/zadani_BP.png") = {
+  context page(margin: 0pt)[
+    #image(imagePath)
+  ]
+}
 
-// TODO: find a way to reuse the author from titlepage
-/// Inserts a declaration page.
-/// -> content
-#let declaration(
-  /// Author of the declaration.
-  ///
-  /// If `auto`, then the provided thesis author is used.
-  /// -> content | auto
-  author: auto,
-  /// Content to be put in the page's header.
-  /// -> content | none
-  header: none,
-  /// Content to be put in the page's footer.
-  ///
-  /// If `auto`, shows the page's numbering (if enabled).
-  /// -> content | auto | none
-  footer: auto,
-  /// Content to be put at the bottom of the page.
-  /// -> content | none
-  additional-content: none,
-  /// The content of the declaration page.
-  /// -> content
-  content,
-) = {
-  if author == auto {
-    author = context query(<fityper-metadata-author>).first().value
-  }
-
-  binding-pagebreak(preamble: true)
-  context page(header: header, footer: footer)[
-    #set par(first-line-indent: 0pt, spacing: par.leading * 2)
-
-    #v(25%)
-    #namedblock(name: "Declaration", content)
-    #align(end, emph(author))
-
-    #v(1fr)
-    #additional-content
+#let assignment(imagePath: "assets/declaration.png") = {
+  context page(margin: 0pt)[
+    #image(imagePath)
   ]
 }
 
