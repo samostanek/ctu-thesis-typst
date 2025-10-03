@@ -1,0 +1,11 @@
+[package]
+name = "fiquill"
+version = "0.5.0"
+entrypoint = "src/lib.typ"
+authors = ["Ivan Kushpel"]
+license = "BSD-3-Clause"
+description = "A template for writing theses in Typst."
+
+[template]
+path = "example"
+entrypoint = "thesis.typ"
