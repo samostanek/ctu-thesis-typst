@@ -1,7 +1,3 @@
-#let authorship-declaration = [
-  Hereby I declare that this thesis is my original authorial work, which I have worked out on my own. All sources, references, and literature used or excerpted during elaboration of this work are properly cited and listed in complete reference to the due source.
-]
-
 // TODO: specify different supplements for different kinds of headings
 // TODO: update slovak and czech supplements
 #let supplements = (
@@ -52,5 +48,49 @@
     return supplements.at(text.lang).at(id)
   } else {
     return supplements.at("en").at(id)
+  }
+}
+
+// Map faculty shortcuts to full names in different languages
+#let faculty-names = (
+  "FSv": (
+    en: "Faculty of Civil Engineering",
+    cz: "Fakulta stavební",
+  ),
+  "FS": (
+    en: "Faculty of Mechanical Engineering",
+    cz: "Fakulta strojní",
+  ),
+  "FEL": (
+    en: "Faculty of Electrical Engineering",
+    cz: "Fakulta elektrotechnická",
+  ),
+  "FJFI": (
+    en: "Faculty of Nuclear Sciences and Physical Engineering",
+    cz: "Fakulta jaderná a fyzikálně inženýrská",
+  ),
+  "FA": (
+    en: "Faculty of Architecture",
+    cz: "Fakulta architektury",
+  ),
+  "FD": (
+    en: "Faculty of Transportation Sciences",
+    cz: "Fakulta dopravní",
+  ),
+  "FBMI": (
+    en: "Faculty of Biomedical Engineering",
+    cz: "Fakulta biomedicínského inženýrství",
+  ),
+  "FIT": (
+    en: "Faculty of Information Technology",
+    cz: "Fakulta informačních technologií",
+  ),
+)
+
+#let translate-faculty(shortcut) = context {
+  if shortcut != none and shortcut in faculty-names {
+    let lang = text.lang
+    let faculty-lang = if lang == "cz" { "cz" } else { "en" }
+    return smallcaps[#faculty-names.at(shortcut).at(faculty-lang)]
   }
 }

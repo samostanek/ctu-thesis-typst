@@ -18,12 +18,15 @@
 #let title(
   /// Institution under which the thesis is published.
   ///
-  /// If `auto`, then a default for FI MUNI is used.
+  /// If `auto`, then a default for CTU is used.
   /// -> content | auto
   institution: auto,
+  /// The full faculty name.
+  /// -> content | none
+  faculty: auto,
   /// Logo of the institution under which the thesis is published.
   ///
-  /// If `auto`, then a default for FI MUNI is used.
+  /// If `auto`, then a default for CTU is used.
   /// -> content | auto
   logo: auto,
   /// Title of the thesis.
@@ -50,6 +53,7 @@
   /// If `auto`, then the provided template metadata is used.
   /// -> content | auto
   date: auto,
+  department: auto,
 ) = {
   if title == auto {
     title = context query(<fityper-metadata-title>).first().value
@@ -79,11 +83,19 @@
     date = context query(<fityper-metadata-date>).first().value
   }
 
+  if faculty == auto {
+    faculty = context query(<fityper-metadata-faculty>).first().value
+  }
+
+  if department == auto {
+    department = context query(<fityper-metadata-department>).first().value
+  }
+
   if institution == auto {
     institution = [
       #text(15pt, smallcaps[Czech Technical University in Prague]) \
-      #text(13pt, smallcaps[Faculty of ...]) \
-      #text(13pt, smallcaps[Department of ...])
+      #text(13pt, faculty) \
+      #if department != none [ #text(13pt, smallcaps[#department])]
     ]
   }
 
@@ -120,7 +132,9 @@
       Supervisor: #supervisor \
       Consultant: #consultant \
       Study program: #studyprogram \
-      Specialization: #specialization
+      #if specialization != "" [
+        Specialization: #specialization
+      ]
       #v(0pt)\
       #text(13pt, smallcaps(date))
     ]

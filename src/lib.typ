@@ -37,7 +37,16 @@
 /// ```
 ///
 /// -> content
-#let fiquill(
+#let ctu-thesis-template(
+  /// CTU faculty shortcut (Czech version).
+  ///
+  /// Possible values: "FSv", "FS", "FEL", "FJFI", "FA", "FD", "FBMI", "FIT"
+  /// The full faculty name will be displayed based on the document language (en/cz).
+  /// -> str | none
+  faculty: none,
+  /// The department name to be displayed on the title page.
+  /// -> content | none
+  department: none,
   /// The title of the thesis. Will be used in the PDF metadata.
   /// -> content
   title: [Your Thesis Title],
@@ -52,7 +61,7 @@
   supervisor: [],
   consultant: [],
   studyprogram: [],
-  specialization: [],
+  specialization: "",
   /// Keywords for the thesis. Will be used in the PDF metadata. Needs to be an array of strings.
   /// -> array
   keywords: (),
@@ -115,6 +124,8 @@
     #metadata(title) <fityper-metadata-title>
     #metadata(date) <fityper-metadata-date>
     #metadata(author) <fityper-metadata-author>
+    #metadata(translate-faculty(faculty)) <fityper-metadata-faculty>
+    #metadata(department) <fityper-metadata-department>
     #metadata(supervisor) <fityper-metadata-supervisor>
     #metadata(consultant) <fityper-metadata-consultant>
     #metadata(studyprogram) <fityper-metadata-studyprogram>
