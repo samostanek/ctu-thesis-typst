@@ -92,9 +92,15 @@
   }
 
   if institution == auto {
-    institution = [
-      #text(15pt, smallcaps[Czech Technical University in Prague]) \
-      #text(13pt, faculty) \
+    institution = context [
+      #text(15pt, smallcaps[#if text.lang == "cz" [
+        České vysoké učení technické v Praze
+      ] else [
+        Czech Technical University in Prague
+      ]]) \
+      #if faculty != none [
+        #text(13pt, faculty) \
+      ]
       #if department != none [ #text(13pt, smallcaps[#department])]
     ]
   }
@@ -106,7 +112,11 @@
   }
 
   if thesis == auto {
-    thesis = [Bachelor's Thesis]
+    thesis = context if text.lang == "cz" [
+      Bakalářská práce
+    ] else [
+      Bachelor's Thesis
+    ]
   }
 
   set text(hyphenate: false)
@@ -128,28 +138,25 @@
       #v(1fr)
     ]
 
-    #box(stroke: (left: 1.5pt), outset: 10pt)[
-      Supervisor: #supervisor \
-      Consultant: #consultant \
-      Study program: #studyprogram \
-      #if specialization != "" [
-        Specialization: #specialization
+    #context box(stroke: (left: 1.5pt), outset: 10pt)[
+      #if text.lang == "cz" [
+        Vedoucí práce: #supervisor \
+        Konzultant: #consultant \
+        Studijní program: #studyprogram \
+        #if specialization != "" [
+          Specializace: #specialization
+        ]
+      ] else [
+        Supervisor: #supervisor \
+        Consultant: #consultant \
+        Study program: #studyprogram \
+        #if specialization != "" [
+          Specialization: #specialization
+        ]
       ]
       #v(0pt)\
       #text(13pt, smallcaps(date))
     ]
-  ]
-}
-
-#let assignment(imagePath: "assets/zadani_BP.png") = {
-  context page(margin: 0pt)[
-    #image(imagePath)
-  ]
-}
-
-#let assignment(imagePath: "assets/declaration.png") = {
-  context page(margin: 0pt)[
-    #image(imagePath)
   ]
 }
 
@@ -176,7 +183,14 @@
     #set par(first-line-indent: 0pt, spacing: par.leading * 2)
 
     #v(25%)
-    #namedblock(name: "Acknowledgements", content)
+    #namedblock(
+      name: if text.lang == "cz" [
+        Poděkování
+      ] else [
+        Acknowledgements
+      ],
+      content
+    )
 
     #v(1fr)
     #additional-content
@@ -196,8 +210,12 @@
     keywords = context query(<fityper-metadata-keywords>).first().value.join(", ")
   }
 
-  [
-    #text(16pt, smallcaps("Keywords")) \
+  context [
+    #text(16pt, smallcaps(if text.lang == "cz" [
+      Klíčová slova
+    ] else [
+      Keywords
+    ])) \
     #smallcaps(keywords)
   ]
 }
@@ -220,16 +238,19 @@
   /// -> content
   content,
 ) = {
-  if keywords == auto {
-    keywords = context query(<fityper-metadata-keywords>).first().value.join(", ")
-  }
-
   binding-pagebreak(preamble: true)
   context page(header: header, footer: footer)[
     #set par(first-line-indent: 0pt, spacing: par.leading * 2)
 
     #v(25%)
-    #namedblock(name: "Abstract", content)
+    #namedblock(
+      name: if text.lang == "cz" [
+        Abstrakt
+      ] else [
+        Abstract
+      ],
+      content
+    )
 
     #v(1fr)
     #additional-content
@@ -245,8 +266,15 @@
   /// -> label | selector | location | function
   target: heading,
   /// The text that is displayed as the outline header.
-  headingtext: [Contents],
+  headingtext: auto,
 ) = {
+  if headingtext == auto {
+    headingtext = context if text.lang == "cz" [
+      Obsah
+    ] else [
+      Contents
+    ]
+  }
   binding-pagebreak(preamble: true)
 
   // A little bit less tight spacing

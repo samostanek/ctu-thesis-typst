@@ -44,10 +44,17 @@
 
 // TODO: this might be useful for not only supplements
 #let translate-supplement(id) = context {
-  if (text.lang in supplements) {
-    return supplements.at(text.lang).at(id)
-  } else {
+  let lang = if text.lang in supplements { text.lang } else { "en" }
+  let lang-supplements = supplements.at(lang)
+  
+  if id in lang-supplements {
+    return lang-supplements.at(id)
+  } else if id in supplements.at("en") {
+    // Fallback to English if ID not found in current language
     return supplements.at("en").at(id)
+  } else {
+    // Return the ID itself if not found anywhere
+    return id
   }
 }
 
@@ -90,7 +97,16 @@
 #let translate-faculty(shortcut) = context {
   if shortcut != none and shortcut in faculty-names {
     let lang = text.lang
-    let faculty-lang = if lang == "cz" { "cz" } else { "en" }
-    return smallcaps[#faculty-names.at(shortcut).at(faculty-lang)]
+    // Map Slovak to Czech, otherwise default to English
+    let faculty-lang = if lang == "cz" or lang == "sk" { "cz" } else { "en" }
+    let faculty-data = faculty-names.at(shortcut)
+    
+    // Check if the language key exists, fallback to English
+    if faculty-lang in faculty-data {
+      return smallcaps[#faculty-data.at(faculty-lang)]
+    } else {
+      return smallcaps[#faculty-data.at("en")]
+    }
   }
+  return none
 }
