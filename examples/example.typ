@@ -3,38 +3,34 @@
 
 #import "../src/lib.typ": *
 
+#set text(lang: "en")
+
 // Use and setup the template
-#show: fiquill.with(
+#show: ctu-thesis-template.with(
+  faculty: "FJFI",
+  department: "Department of Physics",
   title: [Typesetting Typst Thesis Template],
   date: [March 2025],
-  author: "Ivan Kushpel",
+  author: "Author Name",
+  supervisor: "Ing. Supervisor Name, Ph.D., Department of Something",
+  consultant: "Ing. Consultant Name, Ph.D., Department of Something",
   keywords: ("some", "keywords", "DNA", "Typst"),
   description: [Specify short description here to set PDF metadata],
-  digital: false,
+  digital: true,
   colored: auto,
 )
 
-// We want to let the user to be able to choose the font, but provide them with a default
-#set text(font: "EB Garamond", number-type: "old-style")
-#show math.equation: set text(font: "Garamond-Math") // todo: find a comprehensive math font
-
 #pages.title()
 
-#pages.declaration(
-  additional-content: [
-    *Advisor*: prof. RNDr. John Advisor Ph.D. \
-    *Consultant*: Jožko Mrkvička
-  ],
-)[
-  #authorship-declaration
+// === ZADÁNÍ práce ===
+// You can uncomment this section to include the assignment and declaration pages
+// #[
+// #set page(margin: 0pt)
+// #image("assets/assignment.pdf")
+// #image("assets/declaration.pdf")
+// ]
 
-  I have not used any generative AI during the writing of this thesis.
-]
-
-#pages.acknowledgements(footer: [_Look on my Works, ye Mighty, and despair!_])[
-  I would like to thank everyone's mother and their dog in writing this thesis. #lorem(50)
-]
-
+// === ABSTRACT in English ===
 #pages.abstract(additional-content: pages.keywords())[
   #lorem(50)
 
@@ -43,7 +39,20 @@
   #lorem(100)
 ]
 
+// === ABSTRAKT v češtině ===
+#pages.abstract(additional-content: pages.keywords(keywords: "klíčová, slova, DNA, Typst"))[
+  #lorem(50)
+
+  Ano, to _je_ další odstavec. Co s tím uděláš?
+
+  #lorem(100)
+]
+
 #pages.outline()
+
+#pages.acknowledgements(footer: [_Look on my Works, ye Mighty, and despair!_])[
+  I would like to thank everyone's mother and their dog in writing this thesis. #lorem(50)
+]
 
 #let figureselector = (
   figure
@@ -153,8 +162,8 @@ Some text that is after the code listing in the source, but stays above it in th
 
 #pagebreak()
 
-#figure(caption: [Faculty of Informatics logo])[
-  #image("../assets/fi_znak-cb.svg", width: 30mm, height: 30mm)
+#figure(caption: [CTU logo])[
+  #image("../assets/ctu_logo_black.svg", width: 30mm, height: 30mm)
 ] <imageone>
 
 == Lists
